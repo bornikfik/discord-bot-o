@@ -4,7 +4,7 @@ module.exports = {
     execute(message, args){
         if(message.member.hasPermission("BAN_MEMBERS")){
             const member = message.mentions.users.first();
-            const reason = args[1] || "Nenapsal jsi důvod banu"
+            const reason = args.join(' ') || "Nenapsal jsi důvod banu"
         if(member){
             const memberTarget = message.guild.members.cache.get(member.id);
             memberTarget.ban({
@@ -13,7 +13,7 @@ module.exports = {
             message.channel.send(`<@${memberTarget.user.id}> byl zabanován`);
             console.log('done: Uživatel byl zabanován');
         }else{
-            message.channel.send('`Error:` Nemůžeš zabanovat tohoto uživatele');
+            message.channel.send('`err:` Nemůžeš zabanovat tohoto uživatele');
             console.log('Error: nelze zabanovat uživatele');
     }
         } else {

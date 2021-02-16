@@ -3,11 +3,10 @@ const Database = require("@replit/database")
 const db = new Database()
 const fs = require('fs')
 const keepalive = require('./keepalive.js')
-const { token } = require('./config')
+const { token, prefix } = require('./config')
 const chalk = require('chalk')
 const client = new Discord.Client
 client.commands = new Discord.Collection
-const prefix = '?'
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'))
 for(const file of commandFiles) {
     const command = require(`./commands/${file}`)
@@ -28,7 +27,7 @@ client.on('message', message => {
     if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName)
   try {
-    command.execute(message, args, Discord, client)
+    command.execute(message, args, Discord, client, prefix)
   } catch (error) {
     console.error(error)
     message.reply(`\`\`\`nastal problém při spouštění tohoto příkazu ${error}\`\`\``)
@@ -41,3 +40,4 @@ client.on('disconnect', () => {
   console.log('weboscket disconnected :(')
 })
 client.login(token)
+//--------------------------------------------//
